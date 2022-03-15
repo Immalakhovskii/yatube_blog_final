@@ -70,7 +70,7 @@ class PostViewsTests(TestCase):
         self.assertTrue(follow_object != 0)
 
     def test_authorized_user_can_unsubscribe_to_author(self):
-        """Проверка возможности удаления подписки на автора."""    
+        """Проверка возможности удаления подписки на автора."""
         self.authorized_client.get(
             reverse("posts:profile_unfollow",
                     kwargs={"username": self.another_user.username})
