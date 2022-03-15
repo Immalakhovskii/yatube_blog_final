@@ -135,13 +135,19 @@ def follow_index(request):
     paginator = Paginator(posts, POSTS_PER_PAGE)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, template, {"page_obj": page_obj})
+    context = {
+        "page_obj": page_obj,
+        "posts": posts,
+    }
+    return render(request, template, context)
 
 
 @login_required
 def profile_follow(request, username):
     author = get_object_or_404(User, username=username)
-    if request.user != author:
+    already_followed = Follow.objects.filter(
+        user=request.user, author=author).count()
+    if request.user != author and already_followed == 0:
         Follow.objects.create(user=request.user, author=author)
         return redirect("posts:follow_index")
 

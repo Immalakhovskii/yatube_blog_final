@@ -37,10 +37,6 @@ class PostViewsTests(TestCase):
             post=cls.post,
             author=cls.user,
         )
-        cls.follow = Follow.objects.create(
-            user=cls.user,
-            author=cls.another_user,
-        )
 
     def setUp(self):
         self.guest_client = Client()
@@ -61,14 +57,26 @@ class PostViewsTests(TestCase):
         comment = response.context.get("comments")[FIRST_OBJECT]
         self.assertEqual(comment, self.comment)
 
-    # def test_authorized_user_can_subscribe_to_author(self):
-    #    """Проверка возможности подписки на автора"""
-    #    response = self.authorized_client.get(
-    #        reverse("posts:profile_follow",
-    #                kwargs={"username": self.another_user.username})
-    #    )
-    #    follow_object = response.content.get(
-    #        user=self.user,
-    #        author=self.another_user,
-    #    )
-    #    self.assertEqual(follow_object, self.follow)
+    def test_authorized_user_can_subscribe_to_author(self):
+        """Проверка возможности подписки на автора."""
+        self.authorized_client.get(
+            reverse("posts:profile_follow",
+                    kwargs={"username": self.another_user.username})
+        )
+        follow_object = Follow.objects.filter(
+            user=self.user,
+            author=self.another_user,
+        ).count()
+        self.assertTrue(follow_object != 0)
+
+    def test_authorized_user_can_unsubscribe_to_author(self):
+        """Проверка возможности удаления подписки на автора."""    
+        self.authorized_client.get(
+            reverse("posts:profile_unfollow",
+                    kwargs={"username": self.another_user.username})
+        )
+        follow_object = Follow.objects.filter(
+            user=self.user,
+            author=self.another_user,
+        ).count()
+        self.assertTrue(follow_object == 0)

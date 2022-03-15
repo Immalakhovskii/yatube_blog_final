@@ -9,7 +9,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django import forms
 
-from ..models import Post, Group
+from ..models import Post, Group, Follow
 
 User = get_user_model()
 
@@ -26,6 +26,9 @@ class PostViewsTests(TestCase):
         fake = Faker()
         cls.user = User.objects.create_user(
             username=fake.name(),
+        )
+        cls.another_user = User.objects.create_user(
+            username=fake.name()
         )
         cls.group = Group.objects.create(
             title=fake.word(),
@@ -51,6 +54,10 @@ class PostViewsTests(TestCase):
             text=fake.text(),
             image=uploaded,
         )
+        cls.follow = Follow.objects.create(
+            user=cls.user,
+            author=cls.another_user,
+        )
 
     @classmethod
     def tearDownClass(cls):
@@ -61,6 +68,9 @@ class PostViewsTests(TestCase):
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
+        self.new_user = User.objects.create_user(username="Someone")
+        self.another_authorized_client = Client()
+        self.another_authorized_client.force_login(self.new_user)
 
     def test_index_group_and_profile_show_correct_context(self):
         """Проверка контекста шаблонов index, group_posts и profile"""
@@ -114,3 +124,14 @@ class PostViewsTests(TestCase):
                 with self.subTest(value=value):
                     form_field = response.context.get("form").fields.get(value)
                     self.assertIsInstance(form_field, expected)
+
+    def test_follow_index_correctly_shows_new_post(self):
+        """Проверка отображения новых постов в ленте подписчиков."""
+        Post.objects.create(author=self.another_user)
+        response = self.authorized_client.get(reverse("posts:follow_index"))
+        posts_count = response.context["posts"].count()
+        self.assertTrue(posts_count != 0)
+        response = self.another_authorized_client.get(reverse(
+            "posts:follow_index"))
+        posts_count = response.context["posts"].count()
+        self.assertTrue(posts_count == 0)
