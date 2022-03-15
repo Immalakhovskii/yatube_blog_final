@@ -1,13 +1,9 @@
+from django.test import Client, TestCase
+from django.urls import reverse
 from faker import Faker
 
-from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
-from django.urls import reverse
-
-from ..models import Group, Post, Comment
 from ..forms import CommentForm
-
-User = get_user_model()
+from ..models import Comment, Group, Post, User
 
 
 class PostFormTests(TestCase):

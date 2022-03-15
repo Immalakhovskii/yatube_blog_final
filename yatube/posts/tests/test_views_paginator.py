@@ -1,12 +1,9 @@
-from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
 from faker import Faker
 
-from ..models import Post, Group
+from ..models import Group, Post, User
 from ..views import POSTS_PER_PAGE
-
-User = get_user_model()
 
 POSTS_FOR_TESTS = 13
 
@@ -22,9 +19,10 @@ class PaginatorPostViewsTest(TestCase):
         cls.group = Group.objects.create(
             slug=fake.slug(),
         )
-        for i in range(0, (POSTS_FOR_TESTS)):
-            cls.post = Post.objects.create(author=cls.user,
-                                           group=cls.group)
+        Post.objects.bulk_create(
+            [Post(author=cls.user, group=cls.group)]
+            * POSTS_FOR_TESTS
+        )
 
     def setUp(self):
         self.guest_client = Client()

@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Group, Post, Comment, Follow
-from .forms import PostForm, CommentForm
+from .forms import CommentForm, PostForm
+from .models import Comment, Follow, Group, Post
 
 User = get_user_model()
 
@@ -103,7 +103,6 @@ def post_edit(request, post_id):
             post.save()
             return redirect("posts:post_detail", post_id=post_id)
 
-        form = PostForm(instance=post)
         return render(request, template,
                       {"post": post,
                        "form": form,

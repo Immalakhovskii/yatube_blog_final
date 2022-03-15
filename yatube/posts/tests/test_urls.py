@@ -1,11 +1,9 @@
-from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
 from http import HTTPStatus
+
+from django.test import Client, TestCase
 from faker import Faker
 
-from ..models import Post, Group
-
-User = get_user_model()
+from ..models import Group, Post, User
 
 STATUS_200 = HTTPStatus.OK
 STATUS_404 = HTTPStatus.NOT_FOUND

@@ -1,17 +1,14 @@
 import shutil
 import tempfile
-from faker import Faker
 
-from django.contrib.auth import get_user_model
-from django.test import TestCase, Client, override_settings
+from django import forms
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
-from django import forms
+from faker import Faker
 
-from ..models import Post, Group, Follow
-
-User = get_user_model()
+from ..models import Follow, Group, Post, User
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
@@ -28,7 +25,10 @@ class PostViewsTests(TestCase):
             username=fake.name(),
         )
         cls.another_user = User.objects.create_user(
-            username=fake.name()
+            username=fake.name(),
+        )
+        cls.additional_user = User.objects.create_user(
+            username=fake.name(),
         )
         cls.group = Group.objects.create(
             title=fake.word(),
@@ -68,9 +68,8 @@ class PostViewsTests(TestCase):
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
-        self.new_user = User.objects.create_user(username="Someone")
         self.another_authorized_client = Client()
-        self.another_authorized_client.force_login(self.new_user)
+        self.another_authorized_client.force_login(self.additional_user)
 
     def test_index_group_and_profile_show_correct_context(self):
         """Проверка контекста шаблонов index, group_posts и profile"""

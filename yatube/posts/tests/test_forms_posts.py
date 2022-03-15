@@ -1,17 +1,14 @@
 import shutil
 import tempfile
-from faker import Faker
 
-from django.contrib.auth import get_user_model
-from django.test import TestCase, Client, override_settings
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
+from faker import Faker
 
-from ..models import Post, Group
 from ..forms import PostForm
-
-User = get_user_model()
+from ..models import Group, Post, User
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 

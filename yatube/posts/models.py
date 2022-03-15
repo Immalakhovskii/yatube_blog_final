@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models import UniqueConstraint
+
 from core.models import ModelWithDateAndText
 
 User = get_user_model()
@@ -39,13 +41,13 @@ class Post(ModelWithDateAndText):
         blank=True
     )
 
-    def __str__(self):
-        return self.text[:CHARS_OF_POST_TEXT]
-
     class Meta:
         ordering = ["-created"]
         verbose_name = "Пост"
         verbose_name_plural = "Посты"
+
+    def __str__(self):
+        return self.text[:CHARS_OF_POST_TEXT]
 
 
 class Comment(ModelWithDateAndText):
@@ -79,3 +81,9 @@ class Follow(models.Model):
         related_name="following",
         verbose_name="Автор",
     )
+
+    class Meta:
+        UniqueConstraint(
+            fields=["user", "author"],
+            name="unique_follow",
+        )
