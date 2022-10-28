@@ -63,12 +63,11 @@ def post_detail(request, post_id):
     template = "posts/post_detail.html"
     post = get_object_or_404(Post, id=post_id)
     posts_count = Post.objects.filter(author=post.author).count()
-    form = CommentForm(request.POST or None)
     comments = Comment.objects.filter(post_id=post_id)
     context = {
         "posts_count": posts_count,
         "post": post,
-        "form": form,
+        "form": CommentForm(),
         "comments": comments,
     }
     return render(request, template, context)

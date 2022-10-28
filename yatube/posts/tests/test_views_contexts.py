@@ -72,7 +72,10 @@ class PostViewsTests(TestCase):
         self.another_authorized_client.force_login(self.additional_user)
 
     def test_index_group_and_profile_show_correct_context(self):
-        """Проверка контекста шаблонов index, group_posts и profile"""
+        """
+        Test if index, group_posts, profile templates
+        have correct context.
+        """
         responses = [
             (self.guest_client.get(reverse("posts:index"))),
             (self.guest_client.get(reverse("posts:group_list",
@@ -81,34 +84,34 @@ class PostViewsTests(TestCase):
              kwargs={"username": self.user.username}))),
         ]
         for response in responses:
-            first_object = response.context["page_obj"][FIRST_OBJECT]
-            first_object_attributes = {
-                first_object.author.username: self.user.username,
-                first_object.text: self.post.text,
-                first_object.group.title: self.group.title,
-                first_object.image: self.post.image,
+            first_post = response.context["page_obj"][FIRST_OBJECT]
+            first_post_fields = {
+                first_post.author.username: self.user.username,
+                first_post.text: self.post.text,
+                first_post.group.title: self.group.title,
+                first_post.image: self.post.image,
             }
-            for instance, expected_instance in first_object_attributes.items():
+            for instance, expected_instance in first_post_fields.items():
                 with self.subTest(instance=instance):
                     self.assertEqual(instance, expected_instance)
 
     def test_post_detail_shows_correct_context(self):
-        """Проверка контекста шаблона post_detail"""
+        """Test if post_detail template has correct context."""
         response = (self.guest_client.get(reverse("posts:post_detail",
                     kwargs={"post_id": self.post.id})))
-        object = response.context["post"]
-        object_attributes = {
-            object.author.username: self.user.username,
-            object.text: self.post.text,
-            object.group.title: self.group.title,
-            object.image: self.post.image,
+        post = response.context["post"]
+        post_fields = {
+            post.author.username: self.user.username,
+            post.text: self.post.text,
+            post.group.title: self.group.title,
+            post.image: self.post.image,
         }
-        for instance, expected_instance in object_attributes.items():
+        for instance, expected_instance in post_fields.items():
             with self.subTest(instance=instance):
                 self.assertEqual(instance, expected_instance)
 
     def test_post_create_and_post_edit_show_correct_context(self):
-        """Проверка контекста шаблонов post_create и post_edit."""
+        """Test if post_create, post_edit templates have correct context."""
         responses = [
             (self.authorized_client.get(reverse("posts:post_create"))),
             (self.authorized_client.get(reverse("posts:post_edit",
@@ -125,7 +128,7 @@ class PostViewsTests(TestCase):
                     self.assertIsInstance(form_field, expected)
 
     def test_follow_index_correctly_shows_new_post(self):
-        """Проверка отображения новых постов в ленте подписчиков."""
+        """Test if new post is in follower feed."""
         Post.objects.create(author=self.another_user)
         response = self.authorized_client.get(reverse("posts:follow_index"))
         posts_count = response.context["posts"].count()

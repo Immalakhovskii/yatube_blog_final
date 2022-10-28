@@ -6,7 +6,7 @@ class AboutURLTests(TestCase):
         self.guest_client = Client()
 
     def test_posts_urls_use_correct_template(self):
-        """Проверка шаблонов about."""
+        """Test about app templates."""
         templates_url_names = {
             "about/author.html": "/about/author/",
             "about/tech.html": "/about/tech/",

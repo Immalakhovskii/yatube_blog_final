@@ -23,7 +23,7 @@ class PostViewsTests(TestCase):
         self.guest_client = Client()
 
     def test_index_content_saved_in_cache(self):
-        """Проверка сохранения постов index в кэше"""
+        """Test if index posts stored in cache."""
         response = self.guest_client.get(reverse("posts:index"))
         index_post = response.content
         Post.objects.filter(id=self.post.id).delete()

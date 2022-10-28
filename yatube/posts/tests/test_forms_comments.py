@@ -35,7 +35,7 @@ class PostFormTests(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_commenting_is_possible(self):
-        """Проверка создания объекта Comment авторизованным пользователем."""
+        """Test if authorized user can create comment."""
         comments_count = Comment.objects.count()
         form_data = {"text": self.comment.text}
         response = self.authorized_client.post(
@@ -57,7 +57,7 @@ class PostFormTests(TestCase):
         )
 
     def test_anonymous_cant_comment(self):
-        """Проверка создания объекта Comment неавторизованным пользователем."""
+        """Test if unauthorized user can't create comment."""
         comments_count = Comment.objects.count()
         new_text = Faker()
         form_data = {"text": new_text.text()}

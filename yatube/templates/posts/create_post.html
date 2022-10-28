@@ -2,9 +2,9 @@
 {% load user_filters %}
 {% block title %}
   {% if is_edit %} 
-    Редактировать пост 
+    Edit Post 
   {% else %} 
-    Добавить пост 
+    Create Post 
   {% endif %}
 {% endblock %}
   {% block content %}
@@ -13,9 +13,9 @@
         <div class="card">
           <div class="card-header">
             {% if is_edit %}
-              Редактировать пост 
+              Edit Post 
             {% else %} 
-              Добавить пост 
+              Create Post 
             {% endif %}    
           </div>
           <div class="card-body">
@@ -44,9 +44,9 @@
               <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">
                   {% if is_edit %}
-                    Сохранить
+                    Save
                   {% else %}
-                    Добавить
+                    Add
                   {% endif %}
                 </button>
               </div>

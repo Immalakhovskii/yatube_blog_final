@@ -22,7 +22,7 @@ class PostModelTest(TestCase):
         )
 
     def test_models_have_correct_objects_names(self):
-        """Проверка корректной работы __str__ в моделях."""
+        """Test correct functionality of __str__ in models."""
         group = PostModelTest.group
         post = PostModelTest.post
         objects_names = (
@@ -34,13 +34,13 @@ class PostModelTest(TestCase):
                 self.assertEqual(title, expected_title)
 
     def test_post_model_verbose_names(self):
-        """Проверка ожидаемых verbose_names в полях Post."""
+        """Test if verbose_names in Post model fields are correct."""
         post = PostModelTest.post
         field_verboses = {
-            "text": "Текст",
-            "created": "Дата создания",
-            "author": "Автор",
-            "group": "Группа",
+            "text": "Text",
+            "created": "Publication Date",
+            "author": "Author",
+            "group": "Group",
         }
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
@@ -49,11 +49,11 @@ class PostModelTest(TestCase):
                 )
 
     def test_post_model_help_texts(self):
-        """Проверка наличия ожидаемых help_texts в полях Post."""
+        """Test if help_texts in Post model fields are correct."""
         post = PostModelTest.post
         field_help_texts = {
-            "text": "Введите текст",
-            "group": "Выберите группу",
+            "text": "Type some text",
+            "group": "Choose group",
         }
         for field, expected_value in field_help_texts.items():
             with self.subTest(field=field):

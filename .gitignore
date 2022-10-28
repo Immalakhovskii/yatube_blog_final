@@ -128,7 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Папки, создаваемые средой разработки
+# VS Code folders
 .idea
 .DS_Store
 .AppleDouble
@@ -145,8 +145,12 @@ dmypy.json
 
 .mypy_cache
 
-# папки со статикой и медиа
-static/
+# Folders with static and media
 yatube/posts/static/
 yatube/media/
 
+# REST Client file
+requests.http
+
+# Dump file
+dump.py

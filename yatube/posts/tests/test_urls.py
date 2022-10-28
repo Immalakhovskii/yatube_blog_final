@@ -31,20 +31,20 @@ class PostURLTests(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_public_posts_urls_exist_at_desired_location(self):
-        """Проверка доступных для анонима URL posts."""
-        url_status = {
+        """Test if URLs accessible for anonymous."""
+        url_statuses = {
             "/": STATUS_200,
             f"/group/{self.group.slug}/": STATUS_200,
             f"/profile/{self.user.username}/": STATUS_200,
             f"/posts/{self.post.id}/": STATUS_200,
         }
-        for url, status in url_status.items():
+        for url, status in url_statuses.items():
             with self.subTest(status=status):
                 response = self.guest_client.get(url)
                 self.assertEqual(response.status_code, status)
 
     def test_posts_create_and_edit_urls_exist_at_desired_location(self):
-        """Проверка доступных URL posts для авторизованных пользователей."""
+        """Test if URLs accessible for authorized users."""
         url_status = {
             "/create/": STATUS_200,
             f"/posts/{self.post.id}/edit/": STATUS_200,
@@ -55,13 +55,13 @@ class PostURLTests(TestCase):
                 self.assertEqual(response.status_code, status)
 
     def test_nonexistent_url_returns_404(self):
-        """Проверка запроса к несущетвующему URL."""
+        """Test request to nonexistent URL."""
         fake_url = Faker()
         response = self.guest_client.get(f"/{fake_url.url()}/")
         self.assertEqual(response.status_code, STATUS_404)
 
     def test_post_create_edit_and_comment_redirects_anonymous(self):
-        """Проверка редиректов анонима с create/, edit/ и comment/."""
+        """Test if anonymous redirects from create/, edit/ and comment/."""
         response = self.guest_client.get("/create/", follow=True)
         self.assertRedirects(response, "/auth/login/?next=/create/")
         response = self.guest_client.get(

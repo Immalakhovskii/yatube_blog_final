@@ -25,7 +25,7 @@ class PostURLTests(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_posts_urls_use_correct_template(self):
-        """Проверка использования правильных шаблонов в URL-адресах."""
+        """Test if URLs using correct HTML templates."""
         urls_for_templates = {
             "/": "posts/index.html",
             f"/group/{self.group.slug}/": "posts/group_list.html",

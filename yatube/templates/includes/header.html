@@ -11,44 +11,44 @@
     <ul class="nav nav-pills">
       <li class="nav-item">
         <a class="nav-link {% if view_name  == "about:author" %}active{% endif %}" 
-        href="{% url "about:author" %}">Об авторе</a>
+        href="{% url "about:author" %}">About</a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link {% if view_name  == "about:tech" %}active{% endif %}" 
-        href="{% url "about:tech" %}">Технологии</a>
+        href="{% url "about:tech" %}">Tech</a>
       </li>
 
       {% if user.is_authenticated %}
 
       <li class="nav-item"> 
         <a class="nav-link {% if view_name  == "posts:post_create" %}active{% endif %}" 
-        href="{% url "posts:post_create" %}">Новая запись</a>
+        href="{% url "posts:post_create" %}">New Post</a>
       </li>
 
       <li class="nav-item"> 
         <a class="nav-link link-light {% if view_name  == "password_change" %}active{% endif %}" 
-        href="{% url "password_change" %}">Изменить пароль</a>
+        href="{% url "password_change" %}">Change Password</a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link link-light" href="{% url "logout" %}">Выйти</a>
+        <a class="nav-link link-light" href="{% url "logout" %}">Log Out</a>
       </li>
 
       <li>
-        Пользователь: {{ user.username }}
+        User: {{ user.username }}
       <li>
 
       {% else %}
 
       <li class="nav-item"> 
         <a class="nav-link link-light {% if view_name  == "login" %}active{% endif %}" 
-        href="{% url "login" %}">Войти</a>
+        href="{% url "login" %}">Log In</a>
       </li>
 
       <li class="nav-item"> 
         <a class="nav-link link-light {% if view_name  == "users:signup" %}active{% endif %}" 
-        href="{% url "users:signup" %}">Регистрация</a>
+        href="{% url "users:signup" %}">Sign Up</a>
       </li>
       
       {% endif %}

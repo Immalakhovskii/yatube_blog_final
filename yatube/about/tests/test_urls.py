@@ -10,7 +10,7 @@ class AboutURLTests(TestCase):
         self.guest_client = Client()
 
     def test_about_urls_exist_at_desired_location(self):
-        """Проверка URL about."""
+        """Test about app URLs."""
         url_status = {
             "/about/author/": STATUS_200,
             "/about/tech/": STATUS_200,

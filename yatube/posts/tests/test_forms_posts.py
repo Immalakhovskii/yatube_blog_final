@@ -49,7 +49,7 @@ class PostFormTests(TestCase):
         self.another_authorized_client.force_login(self.another_user)
 
     def test_post_creation_is_possible(self):
-        """Проверка создания объекта Post авторизованным пользователем."""
+        """Test if authorized user can create post."""
         small_gif = (
             b'\x47\x49\x46\x38\x39\x61\x02\x00'
             b'\x01\x00\x80\x00\x00\x00\x00\x00'
@@ -88,7 +88,7 @@ class PostFormTests(TestCase):
         )
 
     def test_post_editing_is_possible(self):
-        """Проверка редактирования объекта Post автором."""
+        """Test if author can create post."""
         posts_count = Post.objects.count()
         edited_text = Faker()
         form_data = {
@@ -112,7 +112,7 @@ class PostFormTests(TestCase):
         )
 
     def test_anonym_cant_create_post(self):
-        """Проверяем, что аноним не может сделать запись в Post."""
+        """Test if unauthorized user can't create post."""
         posts_count = Post.objects.count()
         form_data = {
             "text": self.post.text,
@@ -127,7 +127,7 @@ class PostFormTests(TestCase):
         self.assertEqual(Post.objects.count(), posts_count)
 
     def test_anonym_cant_edit_post(self):
-        """Проверяем, что аноним не может редактировать Post."""
+        """Test if unauthorized user can't edit post."""
         posts_count = Post.objects.count()
         edited_text = Faker()
         form_data = {
@@ -152,8 +152,7 @@ class PostFormTests(TestCase):
         )
 
     def test_not_author_cant_edit_post(self):
-        """Проверяем, что авторизованный пользователь не может
-        редактировать не свой Post."""
+        """Test if authorized user can't edit not own post."""
         posts_count = Post.objects.count()
         edited_text = Faker()
         form_data = {

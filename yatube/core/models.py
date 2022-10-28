@@ -3,11 +3,11 @@ from django.db import models
 
 class ModelWithDateAndText(models.Model):
     text = models.TextField(
-        "Текст",
-        help_text="Введите текст",
+        "Text",
+        help_text="Type some text",
     )
     created = models.DateTimeField(
-        "Дата создания",
+        "Publication Date",
         auto_now_add=True,
     )
 

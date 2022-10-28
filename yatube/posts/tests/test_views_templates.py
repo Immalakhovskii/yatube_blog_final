@@ -26,7 +26,7 @@ class PostURLTests(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_pages_use_correct_templates(self):
-        """Проверка использования правильных шаблонов в URL-адресах."""
+        """Test if pages are using correct HTML templates."""
         page_names_templates = {
             reverse("posts:index"): "posts/index.html",
             reverse("posts:post_create"): "posts/create_post.html",

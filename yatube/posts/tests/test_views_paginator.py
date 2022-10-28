@@ -28,8 +28,10 @@ class PaginatorPostViewsTest(TestCase):
         self.guest_client = Client()
 
     def test_first_pages_have_expected_number_of_records(self):
-        """Проверка ожидаемого числа объектов на первых страницах
-        index, group_list и profile."""
+        """
+        Test if first pages of index, group_list, profile
+        have correct number of an objects.
+        """
         page_with_objects = {
             reverse("posts:index"): POSTS_PER_PAGE,
             reverse("posts:group_list", kwargs={"slug": self.group.slug}):
@@ -43,8 +45,10 @@ class PaginatorPostViewsTest(TestCase):
                 self.assertEqual(len(response.context["page_obj"]), objects)
 
     def test_second_pages_have_expected_number_of_records(self):
-        """Проверка ожидаемого числа объектов на вторых страницах
-        index, group_list и profile."""
+        """
+        Test if second pages of index, group_list, profile
+        have correct number of an objects.
+        """
         posts_count = POSTS_FOR_TESTS - POSTS_PER_PAGE
         page_with_objects = {
             reverse("posts:index"): posts_count,

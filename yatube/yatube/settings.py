@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = "xmdo60g%f+)52rgukaysj4d1^+k8s%1(h2e%tfo6qe@u52$os#"
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -17,17 +17,19 @@ ALLOWED_HOSTS = [
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "posts:index"
-# LOGOUT_REDIRECT_URL = "posts:index"
+LOGOUT_REDIRECT_URL = "posts:index"
 
 CSRF_FAILURE_VIEW = "core.views.csrf_failure"
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 
+STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+FIXTURE_DIRS = (os.path.join(BASE_DIR, "data"),)
 
 CACHES = {
     "default": {
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     "posts",
     "about",
     "sorl.thumbnail",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -57,6 +60,11 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 ROOT_URLCONF = "yatube.urls"
@@ -107,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = "ru"
+LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
 
@@ -116,6 +124,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-STATIC_URL = "/static/"

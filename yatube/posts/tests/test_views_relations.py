@@ -40,21 +40,21 @@ class PostViewsTests(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_post_with_group_belongs_only_to_its_group(self):
-        """Проверка принадлежности поста только своей группе."""
+        """Test if post belongs only own group."""
         response = self.guest_client.get(reverse("posts:group_list",
                                          kwargs={"slug": self.group.slug}))
         self.assertNotEqual(response.context.get("group").id,
                             self.group2.id)
 
     def test_post_detail_has_related_comment(self):
-        """Проверка наличия комментария поста на странице post_detail."""
+        """Test if post_detail has related commentary."""
         response = self.guest_client.get(reverse("posts:post_detail",
                                          kwargs={"post_id": self.post.id}))
         comment = response.context.get("comments")[FIRST_OBJECT]
         self.assertEqual(comment, self.comment)
 
     def test_authorized_user_can_subscribe_to_author(self):
-        """Проверка возможности подписки на автора."""
+        """Test if follow (subscription) to author is possible."""
         self.authorized_client.get(
             reverse("posts:profile_follow",
                     kwargs={"username": self.another_user.username})
@@ -66,7 +66,7 @@ class PostViewsTests(TestCase):
         self.assertTrue(follow_object != 0)
 
     def test_authorized_user_can_unsubscribe_to_author(self):
-        """Проверка возможности удаления подписки на автора."""
+        """Test if unfollow (unsubscription) to author is possible."""
         self.authorized_client.get(
             reverse("posts:profile_unfollow",
                     kwargs={"username": self.another_user.username})
