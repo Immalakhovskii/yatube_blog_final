@@ -30,7 +30,8 @@ python -m pip install -r requirements.txt
 source venv/scripts/activate            # (Windows) 
 source venv/bin/activate                # (macOS and Linux)
 
-# execute custom script for static collection, migrations and objects creation
+# execute custom script for static collection, migrations and 
+# objects creation with Faker package
 cd yatube/
 python manage.py populate_database
 
@@ -42,7 +43,6 @@ python manage.py createsuperuser
 # start!
 python manage.py runserver
 ```
-
 Now Yatube available at http://127.0.0.1:8000/, admin zone at http://127.0.0.1:8000/admin/. If you used script for populating database there are 1 superuser, 3 regular users, 3 groups, 50 posts and 150 comments (there is random quantity of posts by each user, comments' authors and posts also assigned randomly). There are no images and follows, but why not create them:
 
 ```
