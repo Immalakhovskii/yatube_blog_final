@@ -1,4 +1,4 @@
-# Blogging platform Yatube (Final Edition) #
+# Blogging platform Yatube (Final) #
 
 ### Description ###
 
